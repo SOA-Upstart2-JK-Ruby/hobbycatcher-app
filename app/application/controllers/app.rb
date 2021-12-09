@@ -96,7 +96,9 @@ module HobbyCatcher
               response.status = 400
               routing.redirect '/test'
             end
-
+            # Success([@params['type'], @params['difficulty'], @params['freetime'], @params['emotion']])
+            # url_req = Request::AddAnswer.new(routing.params)
+            # result = Service::GetAnswer.new.call(url_request: url_req)
             answer = [url_request[:type], url_request[:difficulty], url_request[:freetime], url_request[:emotion]]
             result = Service::GetAnswer.new.call(answer)
             hobby = result.value!
@@ -104,7 +106,7 @@ module HobbyCatcher
             # Add new record to watched set in cookies
             session[:watching].insert(0, hobby.answers).uniq!
             # Redirect viewer to project page
-            routing.redirect "suggestion/#{hobby.answers.id}"
+            routing.redirect "suggestion/#{hobby.id}"
           end
         end
 
@@ -119,9 +121,9 @@ module HobbyCatcher
               suggestions = result.value!
             end
 
-            viewable_hobby = Views::Suggestion.new(
-              suggestions[:hobby], suggestions[:categories], suggestions[:courses_intros]
-            )
+            viewable_hobby = Views::Suggestion.new(suggestions)
+            #   suggestions[:hobby], suggestions[:categories], suggestions[:courses_intros]
+            # )
 
             view 'suggestion', locals: { hobby: viewable_hobby }
           end

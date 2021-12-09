@@ -7,9 +7,10 @@ module Views
       @course = course
     end
 
-    def category_name
-      @course.owncategory.name
-    end
+    #為啥不見了
+    # def category_name
+    #   @course.owncategory.name
+    # end
 
     def entity
       @course

@@ -4,3 +4,5 @@ coverage/*
 !coverage/.resultset.json
 _snippets/
 *.db
+app/presentation/public/
+
