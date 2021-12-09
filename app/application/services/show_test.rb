@@ -14,7 +14,6 @@ module HobbyCatcher
       private
 
       def get_api_test
-
         result = Gateway::Api.new(HobbyCatcher::App.config).test
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue StandardError => e
@@ -23,9 +22,7 @@ module HobbyCatcher
       end
 
       def reify_test(project_json)
-        Representer::Test.new(OpenStruct.new)
-        .from_json(project_json)
-        .then { |test| Success(test) }
+        Representer::Test.for_collection.new([]).from_json(project_json).then { |test| Success(test) }
       rescue StandardError
         Failure('Could not parse response from API')
       end

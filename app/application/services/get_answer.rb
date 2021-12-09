@@ -25,7 +25,6 @@ module HobbyCatcher
       end
 
       def retrieve_hobby(input)
-        binding.pry
         result = Gateway::Api.new(HobbyCatcher::App.config)
         .get_answer(input)
 
