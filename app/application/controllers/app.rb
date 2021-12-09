@@ -12,6 +12,7 @@ module HobbyCatcher
     plugin :halt
     plugin :flash
     plugin :all_verbs # recognizes HTTP verbs beyond GET/POST (e.g., DELETE)
+    plugin :caching
     plugin :render, engine: 'slim', views: 'app/presentation/views_html'
     plugin :public, root: 'app/presentation/public'
     plugin :assets, path: 'app/presentation/assets',
@@ -48,6 +49,7 @@ module HobbyCatcher
               questions = result.value!
             end
 
+            response.expires 60, public: true
             view 'test', locals: { questions: questions }
           end
         end
@@ -80,6 +82,7 @@ module HobbyCatcher
               viewable_hobbies = Views::HobbiesList.new(hobbies)
             end
 
+            response.expires 60, public: true
             view 'history', locals: { hobbies: viewable_hobbies }
           end
         end
@@ -125,6 +128,7 @@ module HobbyCatcher
             #   suggestions[:hobby], suggestions[:categories], suggestions[:courses_intros]
             # )
 
+            response.expires 60, public: true
             view 'suggestion', locals: { hobby: viewable_hobby }
           end
         end
