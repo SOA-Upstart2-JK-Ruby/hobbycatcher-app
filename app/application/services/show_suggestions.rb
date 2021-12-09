@@ -1,32 +1,36 @@
 # frozen_string_literal: true
 
-require 'dry/monads'
-# :reek:NestedIterators
-# :reek:TooManyStatements
-# :reek:NilCheck
+require 'dry/transaction'
+
 module HobbyCatcher
   module Service
     # Retrieves array of all listed hobby entities
     class ShowSuggestion
-      include Dry::Monads[:result]
+      include Dry::Transaction
 
-      def call(input)
-        categories = Repository::Hobbies.find_owncategories(input)
-        hobby = Repository::Hobbies.find_id(input)
+      step :get_api_suggestions
+      step :reify_suggestions
 
-        courses_intros = []
-        categories.map do |category|
-          courses = Udemy::CourseMapper.new(App.config.UDEMY_TOKEN).find('subcategory', category.name)
-          courses.map do |course_intro|
-            course = Repository::For.entity(course_intro)
-            course.create(course_intro) if course.find(course_intro).nil?
-          end
-          courses_intros.append(courses)
-        end
-        Success(hobby: hobby, categories: categories, courses_intros: courses_intros)
-      rescue StandardError
-        Failure('Having trouble accessing Udemy courses')
+      # rubocop:disable Metrics/AbcSize
+      def get_api_suggestions(hobby_id)
+        result = Gateway::Api.new(HobbyCatcher::App.config)
+        .suggestions(hobby_id)
+
+        result.success? ? Success(result.payload) : Failure(result.message)
+      rescue StandardError => e
+        puts e.inspect + '\n' + e.backtrace
+        Failure('Cannot get your hobby suggestions right now; please try again later')
       end
+
+      def reify_suggestions(project_json)
+        Representer::Suggestion.new(OpenStruct.new)
+          .from_json(project_json)
+          .then { |suggestion| Success(suggestion) }
+      rescue StandardError
+        Failure('Could not parse response from API')
+      end
+
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end
