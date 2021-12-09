@@ -105,7 +105,6 @@ module HobbyCatcher
             answer = [url_request[:type], url_request[:difficulty], url_request[:freetime], url_request[:emotion]]
             result = Service::GetAnswer.new.call(answer)
             hobby = result.value!
-
             # Add new record to watched set in cookies
             session[:watching].insert(0, hobby.answers).uniq!
             # Redirect viewer to project page
