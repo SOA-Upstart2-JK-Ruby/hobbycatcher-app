@@ -6,25 +6,25 @@ require_relative 'pages/home_page'
 
 describe 'History Page Acceptance Tests' do
   include PageObject::PageFactory
-  
+
   before do
     DatabaseHelper.wipe_database
     # Headless error? https://github.com/leonid-shevtsov/headless/issues/80
     # @headless = Headless.new
     @browser = Watir::Browser.new
   end
-  
+
   after do
     @browser.close
     # @headless.destroy
   end
-  
+
   it '(HAPPY) should see history if it exists' do
     # GIVEN: user has taken the test at least once
     visit HomePage do |page|
       page.catch_hobby
     end
-  
+
     # WHEN: user goes to the history page
     visit HistoryPage do |page|
       # THEN: they should see the history details

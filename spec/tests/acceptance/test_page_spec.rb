@@ -7,19 +7,19 @@ require_relative 'pages/suggestion_page'
 
 describe 'Test Page Acceptance Tests' do
   include PageObject::PageFactory
-  
+
   before do
     DatabaseHelper.wipe_database
     # Headless error? https://github.com/leonid-shevtsov/headless/issues/80
     # @headless = Headless.new
     @browser = Watir::Browser.new
   end
-  
+
   after do
     @browser.close
     # @headless.destroy
   end
-  
+
   describe 'See Test Questions and Answers' do
     it '(HAPPY) see the answer radio' do
       # GIVEN: user enter the test page
@@ -42,7 +42,7 @@ describe 'Test Page Acceptance Tests' do
       visit HomePage do |page|
         page.catch_hobby
       end
-  
+
       # WHEN: answer the question with the answers
       visit TestPage do |page|
         @browser.radio(id: 'type1').click
@@ -64,7 +64,7 @@ describe 'Test Page Acceptance Tests' do
       visit HomePage do |page|
         page.catch_hobby
       end
-    
+
       # WHEN: user does not answer all of the questions
       visit TestPage do |page|
         # help me

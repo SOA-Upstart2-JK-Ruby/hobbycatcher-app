@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-# require_relative 'list_request'
 require 'http'
 
-module HobbyCatcher 
+module HobbyCatcher
   module Gateway
     # Infrastructure to call HobbyCatcher API
     class Api
@@ -17,11 +16,11 @@ module HobbyCatcher
       end
 
       def test
-        @request.get_test
+        @request.test
       end
 
       def get_answer(answer)
-        @request.get_answer(answer[0],answer[1],answer[2],answer[3])
+        @request.get_answer(answer[0], answer[1], answer[2], answer[3])
       end
 
       # Gets appraisal of a project folder rom API
@@ -35,23 +34,23 @@ module HobbyCatcher
       class Request
         def initialize(config)
           @api_host = config.API_HOST
-          @api_root = config.API_HOST + '/api/v1'
+          @api_root = "#{config.API_HOST}/api/v1"
         end
 
         def get_root # rubocop:disable Naming/AccessorMethodName
           call_api('get')
         end
 
-        def get_test
+        def test
           call_api('get', ['test'])
         end
 
-        def get_answer(type,difficulty,freetime,emotion)
+        def get_answer(type, difficulty, freetime, emotion)
           call_api('post', ['suggestion'],
-                          'type' => type,
+                          'type'       => type,
                           'difficulty' => difficulty,
-                          'freetime' => freetime,
-                          'emotion' => emotion)
+                          'freetime'   => freetime,
+                          'emotion'    => emotion)
         end
 
         def get_suggestions(hobby_id)
@@ -62,7 +61,7 @@ module HobbyCatcher
 
         def params_str(params)
           params.map { |key, value| "#{key}=#{value}" }.join('&')
-            .then { |str| str ? '?' + str : '' }
+            .then { |str| str ? "? #{str}" : '' }
         end
 
         def call_api(method, resources = [], params = {})

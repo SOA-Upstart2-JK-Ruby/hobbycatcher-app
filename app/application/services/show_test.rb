@@ -8,16 +8,16 @@ module HobbyCatcher
     class ShowTest
       include Dry::Transaction
 
-      step :get_api_test
+      step :api_test
       step :reify_test
 
       private
 
-      def get_api_test
+      def api_test
         result = Gateway::Api.new(HobbyCatcher::App.config).test
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue StandardError => e
-        puts e.inspect + '\n' + e.backtrace
+        puts "#{e.inspect} \n #{e.backtrace}"
         Failure('Cannot get test list right now; please try again later')
       end
 
@@ -26,7 +26,6 @@ module HobbyCatcher
       rescue StandardError
         Failure('Could not parse response from API')
       end
-
     end
   end
 end

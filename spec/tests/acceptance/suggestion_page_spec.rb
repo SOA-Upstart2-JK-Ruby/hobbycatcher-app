@@ -35,7 +35,7 @@ describe 'Suggestion Page Acceptance Tests' do
         @browser.radio(id: 'emotion1').click
         page.see_result
       end
-      
+   
       visit SuggestionPage do |page|
         # THEN: they should see hobby suggestion of Lion
         _(page.hobby_name).must_equal 'LION'

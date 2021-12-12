@@ -11,14 +11,13 @@ module HobbyCatcher
       step :get_api_suggestions
       step :reify_suggestions
 
-      # rubocop:disable Metrics/AbcSize
       def get_api_suggestions(hobby_id)
         result = Gateway::Api.new(HobbyCatcher::App.config)
-        .suggestions(hobby_id)
+          .suggestions(hobby_id)
 
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue StandardError => e
-        puts e.inspect + '\n' + e.backtrace
+        puts "#{e.inspect} \n #{e.backtrace}"
         Failure('Cannot get your hobby suggestions right now; please try again later')
       end
 
@@ -29,8 +28,6 @@ module HobbyCatcher
       rescue StandardError
         Failure('Could not parse response from API')
       end
-
-      # rubocop:enable Metrics/AbcSize
     end
   end
 end

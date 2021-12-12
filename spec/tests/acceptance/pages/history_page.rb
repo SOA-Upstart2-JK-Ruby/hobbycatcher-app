@@ -3,16 +3,15 @@
 # Page object for history page
 class HistoryPage
   include PageObject
-  
-  page_url HobbyCatcher::App.config.APP_HOST +
-            '/history'
-  
+
+  page_url "#{HobbyCatcher::App.config.APP_HOST}/history"
+
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
-  
+
   nav(:navigation, id: 'main_header')
   table(:history_table, id: 'history_table')
-  
+
   indexed_property(
     :hobbies,
     [

@@ -43,6 +43,6 @@ describe 'Homepage Acceptance Tests' do
         # THEN: they should find themselves on the test page
         @browser.url.include? 'test'
       end
-    end  
+    end
   end
 end

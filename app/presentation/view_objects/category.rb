@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'course'
 
 module Views
@@ -6,7 +7,6 @@ module Views
   class Category
     def initialize(category)
       @category = category
-      
     end
 
     def entity
