@@ -47,10 +47,10 @@ module HobbyCatcher
 
         def get_answer(type, difficulty, freetime, emotion)
           call_api('post', ['suggestion'],
-                          'type'       => type,
-                          'difficulty' => difficulty,
-                          'freetime'   => freetime,
-                          'emotion'    => emotion)
+                   'type' => type,
+                   'difficulty' => difficulty,
+                   'freetime' => freetime,
+                   'emotion' => emotion)
         end
 
         def get_suggestions(hobby_id)
@@ -78,7 +78,8 @@ module HobbyCatcher
       class Response < SimpleDelegator
         NotFound = Class.new(StandardError)
 
-        SUCCESS_CODES = (200..299).freeze
+        # SUCCESS_CODES = (200..299).freeze
+        SUCCESS_CODES = (200..299)
 
         def success?
           code.between?(SUCCESS_CODES.first, SUCCESS_CODES.last)

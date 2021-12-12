@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Page object for home page
+# rubocop:disable Style/RedundantSelf
 class HomePage
   include PageObject
 
@@ -23,3 +24,4 @@ class HomePage
     self.view_history
   end
 end
+# rubocop:enable Style/RedundantSelf

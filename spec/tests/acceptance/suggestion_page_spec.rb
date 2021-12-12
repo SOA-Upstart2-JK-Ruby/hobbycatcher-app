@@ -23,9 +23,7 @@ describe 'Suggestion Page Acceptance Tests' do
   describe 'Visit Suggestion page' do
     it '(HAPPY) suggest right hobby' do
       # GIVEN: user has taken the test
-      visit HomePage do |page|
-        page.catch_hobby
-      end
+      visit HomePage(&:catch_hobby)
 
       # WHEN: user answers the questions with the answers
       visit TestPage do |page|
@@ -35,7 +33,7 @@ describe 'Suggestion Page Acceptance Tests' do
         @browser.radio(id: 'emotion1').click
         page.see_result
       end
-   
+
       visit SuggestionPage do |page|
         # THEN: they should see hobby suggestion of Lion
         _(page.hobby_name).must_equal 'LION'

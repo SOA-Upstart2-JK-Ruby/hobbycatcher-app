@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 # Page object for suggestion page
+# rubocop:disable Style/RedundantSelf
 class SuggestionPage
   include PageObject
 
-  page_url HobbyCatcher::App.config.APP_HOST +
-           '/suggestion/<%=params[:hobby.id]%>'
+  page_url "#{HobbyCatcher::App.config.APP_HOST}/suggestion/<%=params[:hobby.id]%>"
 
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
@@ -20,3 +20,4 @@ class SuggestionPage
     self.try_again
   end
 end
+# rubocop:enable Style/RedundantSelf

@@ -23,9 +23,7 @@ describe 'Test Page Acceptance Tests' do
   describe 'See Test Questions and Answers' do
     it '(HAPPY) see the answer radio' do
       # GIVEN: user enter the test page
-      visit HomePage do |page|
-        page.catch_hobby
-      end
+      visit HomePage(&:catch_hobby)
 
       # THEN: should see test page elements
       visit TestPage do |page|
@@ -39,16 +37,14 @@ describe 'Test Page Acceptance Tests' do
   describe 'Answer the Questions' do
     it '(HAPPY) provide the correct hobby suggestion based on the test answer' do
       # GIVEN: user enter the test page
-      visit HomePage do |page|
-        page.catch_hobby
-      end
+      visit HomePage(&:catch_hobby)
 
       # WHEN: answer the question with the answers
       visit TestPage do |page|
         @browser.radio(id: 'type1').click
         @browser.radio(id: 'difficulty1').click
         @browser.radio(id: 'freetime1').click
-        @browser.radio(id: 'emotion1').click      
+        @browser.radio(id: 'emotion1').click
         page.see_result
       end
 
@@ -61,9 +57,7 @@ describe 'Test Page Acceptance Tests' do
 
     it '(BAD) should report error if user does not answer all the questions' do
       # GIVEN: user enter the test page
-      visit HomePage do |page|
-        page.catch_hobby
-      end
+      visit HomePage(&:catch_hobby)
 
       # WHEN: user does not answer all of the questions
       visit TestPage do |page|
@@ -84,6 +78,6 @@ describe 'Test Page Acceptance Tests' do
         # THEN: they should find themselves on the suggestion page
         @browser.url.include? 'suggestion'
       end
-    end  
+    end
   end
 end
