@@ -3,18 +3,21 @@
 # Page object for test page
 class TestPage
   include PageObject
-    
-  page_url HobbyCatcher::App.config.APP_HOST +
-           '/test'
-    
+
+  page_url "#{HobbyCatcher::App.config.APP_HOST}/test"
+
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
-    
-  radio(:answer1, id: '#{question.button_name}1')
-  radio(:answer2, id: '#{question.button_name}2')
+
+  # form(:show-hobby-form, id: 'show-hobby-form')
   button(:see_result, id: 'hobby-form-submit-question')
-  
-  def see_result
-    self.see_result
-  end
+
+  indexed_property(
+    :questions,
+    [
+      [:div,   :question, { id: 'question[%s].question' }],
+      [:radio, :answer1,  { id: 'question[%s].answer1' }],
+      [:radio, :answer2,  { id: 'question[%s].answer2' }]
+    ]
+  )
 end

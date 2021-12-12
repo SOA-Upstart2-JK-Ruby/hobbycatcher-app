@@ -35,6 +35,16 @@ task :rerack do
   sh "rerun -c rackup --ignore 'coverage/*'"
 end
 
+namespace :run do
+  task :dev do
+    sh 'rerun -c "rackup -p 9292"'
+  end
+
+  task :test do
+    sh 'RACK_ENV=test rackup -p 9000'
+  end
+end
+
 namespace :db do
   task :config do
     require 'sequel'
@@ -99,29 +109,6 @@ namespace :repos do
     puts `ls #{app.config.REPOSTORE_PATH}`
   end
 end
-# namespace :repos do
-#   task :config do
-#     require_relative 'config/environment' # load config info
-#     def app() = HobbyCatcher::App
-#   end
-
-#   desc 'Create director for repo store'
-#   task :create => :config do
-#     puts `mkdir #{app.config.REPOSTORE_PATH}`
-#   end
-
-#   desc 'Delete cloned repos in repo store'
-#   task :wipe => :config do
-#     sh "rm -rf #{app.config.REPOSTORE_PATH}/*" do |ok, _|
-#       puts(ok ? 'Cloned repos deleted' : 'Could not delete cloned repos')
-#     end
-#   end
-
-#   desc 'List cloned repos in repo store'
-#   task :list => :config do
-#     puts `ls #{app.config.REPOSTORE_PATH}`
-#   end
-# end
 
 desc 'Run application console'
 task :console do

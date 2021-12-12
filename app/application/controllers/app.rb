@@ -47,10 +47,11 @@ module HobbyCatcher
               routing.redirect '/'
             else
               questions = result.value!
+              viewable_questions = Views::QuestionsList.new(questions)
             end
 
             response.expires 60, public: true
-            view 'test', locals: { questions: questions }
+            view 'test', locals: { questions: viewable_questions }
           end
         end
       end
