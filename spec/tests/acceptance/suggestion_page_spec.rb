@@ -22,10 +22,9 @@ describe 'Suggestion Page Acceptance Tests' do
   describe 'Visit Suggestion page' do
     it '(HAPPY) suggest right hobby' do
       # GIVEN: user has taken the test
-      visit HomePage do |page|
-        page.catch_hobby
-        @browser.url.include? 'test'
-      end
+
+      visit HomePage(&:catch_hobby)
+
 
       # WHEN: user answers the questions with the answers
       visit TestPage do |page|
@@ -36,6 +35,8 @@ describe 'Suggestion Page Acceptance Tests' do
         page.see_result
       end
 
+      visit SuggestionPage do |page|
+        # THEN: they should see hobby suggestion of Lion
       visit(SuggestionPage, using_params: { hobby_id: HOBBY_ID }) do |page|
         page.url.include? 'suggestion/1'
         _(page.hobby_name).must_equal 'LION'

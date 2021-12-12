@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Page object for test page
+# rubocop:disable Style/RedundantSelf
 class TestPage
   include PageObject
 
@@ -21,3 +22,4 @@ class TestPage
     ]
   )
 end
+

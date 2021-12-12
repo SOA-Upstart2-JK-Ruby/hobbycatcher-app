@@ -25,12 +25,11 @@ module HobbyCatcher
       end
 
       def retrieve_hobby(input)
-        result = Gateway::Api.new(HobbyCatcher::App.config)
-        .get_answer(input)
+        result = Gateway::Api.new(HobbyCatcher::App.config).get_answer(input)
 
         result.success? ? Success(result.payload) : Failure(result.message)
       rescue StandardError => e
-        puts e.inspect + '\n' + e.backtrace
+        puts "#{e.inspect} \n #{e.backtrace}"
         Failure('Cannot get your hobby right now; please try again later')
       end
 
