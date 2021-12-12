@@ -11,8 +11,7 @@ class HomePage
   div(:success_message, id: 'flash_bar_success')
 
   nav(:navigation, id: 'main_header')
-  h1(:title, id: 'homepage_title')
-  h5(:text_content, id: 'other_visiters')
+  h1(:homepage_title, id: 'homepage_title')
   button(:catch_hobby, id: 'catch_hobby')
   button(:view_history, id: 'view_history')
 
@@ -25,3 +24,5 @@ class HomePage
   end
 end
 # rubocop:enable Style/RedundantSelf
+end
+
