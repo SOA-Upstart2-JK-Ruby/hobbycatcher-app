@@ -9,15 +9,14 @@ describe 'Suggestion Page Acceptance Tests' do
   include PageObject::PageFactory
 
   before do
-    DatabaseHelper.wipe_database
-    # Headless error? https://github.com/leonid-shevtsov/headless/issues/80
-    # @headless = Headless.new
-    @browser = Watir::Browser.new
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless')
+    # DatabaseHelper.wipe_database
+    @browser = Watir::Browser.new :chrome, options: options
   end
 
   after do
     @browser.close
-    # @headless.destroy
   end
 
   describe 'Visit Suggestion page' do
@@ -25,21 +24,36 @@ describe 'Suggestion Page Acceptance Tests' do
       # GIVEN: user has taken the test
       visit HomePage do |page|
         page.catch_hobby
+        @browser.url.include? 'test'
       end
 
       # WHEN: user answers the questions with the answers
       visit TestPage do |page|
-        @browser.radio(id: 'type1').click
-        @browser.radio(id: 'difficulty1').click
-        @browser.radio(id: 'freetime1').click
-        @browser.radio(id: 'emotion1').click
+        _(page.questions[0].answer1_element.click)
+        _(page.questions[1].answer1_element.click)
+        _(page.questions[2].answer1_element.click)
+        _(page.questions[3].answer1_element.click)
         page.see_result
       end
-      
-      visit SuggestionPage do |page|
-        # THEN: they should see hobby suggestion of Lion
+
+      visit(SuggestionPage, using_params: { hobby_id: HOBBY_ID }) do |page|
+        page.url.include? 'suggestion/1'
         _(page.hobby_name).must_equal 'LION'
-        _(page.category_name).must_equal 'Dance'
+        _(page.category_name).must_equal 'Category: Dance'
+      end
+    end
+  end
+
+  describe 'Visit Suggestion page' do
+    it '(HAPPY) should see results' do
+      # WHEN: user visit the home page
+      visit(SuggestionPage, using_params: { hobby_id: HOBBY_ID }) do |page|
+        # THEN: they should see basic headers and two buttons
+        _(page.navigation).must_equal 'HobbyCatcher'
+        _(page.hobby_name).must_equal 'LION'
+        _(page.category_name).must_equal 'Category: Dance'
+        _(page.hobby_img_element.present?).must_equal true
+        _(page.try_again_element.present?).must_equal true
       end
     end
   end
@@ -47,9 +61,11 @@ describe 'Suggestion Page Acceptance Tests' do
   describe 'Click try again' do
     it '(HAPPY) redirect to home page' do
       # WHEN: user click the button
-      page.try_again
-      # THEN: they should find themselves on the home page
-      @browser.goto homepage
+      visit(SuggestionPage, using_params: { hobby_id: HOBBY_ID }) do |page|
+        page.try_again
+        # THEN: they should find themselves on the home page
+        @browser.url.include? homepage
+      end
     end
   end
 end
