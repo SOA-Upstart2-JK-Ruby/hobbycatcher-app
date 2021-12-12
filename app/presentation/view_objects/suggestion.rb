@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'category'
-require_relative 'course'
 
 # :reek:TooManyMethod
 module Views
   # View for a single hobby entity
   class Suggestion
-    def initialize(hobby, category, course, index = nil)
+    def initialize(hobby, index = nil)
       @hobby    = hobby
-      @category = category
-      @course   = course
       @index    = index
     end
 
@@ -55,7 +52,7 @@ module Views
     end
 
     def categories
-      @category.map { |category| Category.new(category) }
+      @hobby.categories.map { |category| Category.new(category) }
     end
 
     def categories_each(&block)
@@ -64,18 +61,6 @@ module Views
 
     def categories_any?
       categories.any?
-    end
-
-    def courses
-      @course.flatten.map { |course| Course.new(course) }
-    end
-
-    def courses_each(&block)
-      courses.each(&block)
-    end
-
-    def courses_any?
-      courses.any?
     end
   end
 end

@@ -12,6 +12,7 @@ module HobbyCatcher
     plugin :halt
     plugin :flash
     plugin :all_verbs # recognizes HTTP verbs beyond GET/POST (e.g., DELETE)
+    plugin :caching
     plugin :render, engine: 'slim', views: 'app/presentation/views_html'
     plugin :public, root: 'app/presentation/public'
     plugin :assets, path: 'app/presentation/assets',
@@ -46,9 +47,11 @@ module HobbyCatcher
               routing.redirect '/'
             else
               questions = result.value!
+              viewable_questions = Views::QuestionsList.new(questions)
             end
 
-            view 'test', locals: { questions: questions }
+            response.expires 60, public: true
+            view 'test', locals: { questions: viewable_questions }
           end
         end
       end
@@ -80,6 +83,7 @@ module HobbyCatcher
               viewable_hobbies = Views::HobbiesList.new(hobbies)
             end
 
+            response.expires 60, public: true
             view 'history', locals: { hobbies: viewable_hobbies }
           end
         end
@@ -96,15 +100,16 @@ module HobbyCatcher
               response.status = 400
               routing.redirect '/test'
             end
-
+            # Success([@params['type'], @params['difficulty'], @params['freetime'], @params['emotion']])
+            # url_req = Request::AddAnswer.new(routing.params)
+            # result = Service::GetAnswer.new.call(url_request: url_req)
             answer = [url_request[:type], url_request[:difficulty], url_request[:freetime], url_request[:emotion]]
             result = Service::GetAnswer.new.call(answer)
             hobby = result.value!
-
             # Add new record to watched set in cookies
             session[:watching].insert(0, hobby.answers).uniq!
             # Redirect viewer to project page
-            routing.redirect "suggestion/#{hobby.answers.id}"
+            routing.redirect "suggestion/#{hobby.id}"
           end
         end
 
@@ -119,10 +124,11 @@ module HobbyCatcher
               suggestions = result.value!
             end
 
-            viewable_hobby = Views::Suggestion.new(
-              suggestions[:hobby], suggestions[:categories], suggestions[:courses_intros]
-            )
+            viewable_hobby = Views::Suggestion.new(suggestions)
+            #   suggestions[:hobby], suggestions[:categories], suggestions[:courses_intros]
+            # )
 
+            response.expires 60, public: true
             view 'suggestion', locals: { hobby: viewable_hobby }
           end
         end
