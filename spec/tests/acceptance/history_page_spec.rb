@@ -22,9 +22,10 @@ describe 'History Page Acceptance Tests' do
 
   it '(HAPPY) should see history if it exists' do
     # GIVEN: user has taken the test at least once
-
-    visit HomePage(&:catch_hobby)
-
+    visit HomePage do |page|
+      page.view_history
+      @browser.url.include? 'history'
+    end
 
     # WHEN: user goes to the history page
     visit HistoryPage do |page|
@@ -38,9 +39,10 @@ describe 'History Page Acceptance Tests' do
   describe 'Delete History' do
     it '(HAPPY) should be able to delete a history' do
       # GIVEN: user has taken the test at least once
-
-      visit HomePage(&:catch_hobby)
-
+      visit HomePage do |page|
+        page.catch_hobby
+        @browser.url.include? 'test'
+      end
       visit TestPage do |page|
         _(page.questions[0].answer1_element.click)
         _(page.questions[1].answer1_element.click)

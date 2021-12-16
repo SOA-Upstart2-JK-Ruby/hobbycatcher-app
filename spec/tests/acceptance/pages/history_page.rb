@@ -33,8 +33,4 @@ class HistoryPage
   def first_hobby_delete
     first_hobby_row.button(id: 'hobby[0].delete').click
   end
-
-  def first_hobby_hover
-    first_hobby_row.hover
-  end
 end
