@@ -61,7 +61,7 @@ module HobbyCatcher
 
         def params_str(params)
           params.map { |key, value| "#{key}=#{value}" }.join('&')
-            .then { |str| str ? "? #{str}" : '' }
+          .then { |str| str ? '?' + str : '' }
         end
 
         def call_api(method, resources = [], params = {})
@@ -79,7 +79,7 @@ module HobbyCatcher
         NotFound = Class.new(StandardError)
 
         # SUCCESS_CODES = (200..299).freeze
-        SUCCESS_CODES = (200..299)
+        SUCCESS_CODES = (200..299).freeze
 
         def success?
           code.between?(SUCCESS_CODES.first, SUCCESS_CODES.last)
