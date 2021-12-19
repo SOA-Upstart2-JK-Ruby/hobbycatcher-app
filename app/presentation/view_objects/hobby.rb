@@ -6,8 +6,9 @@ require_relative 'course'
 module Views
   # View for a single hobby entity
   class Hobby
-    def initialize(hobby, index = nil)
-      @hobby    = hobby
+    def initialize(record, index = nil)
+      @record   = record
+      @hobby    = record.hobby_id
       @index    = index
     end
 
@@ -40,7 +41,7 @@ module Views
     end
 
     def time
-      @hobby.updated_at
+      Time.parse(@record.updated_at)
     end
 
     def standard_time

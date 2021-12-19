@@ -22,9 +22,10 @@ describe 'Test Page Acceptance Tests' do
   describe 'See Test Questions and Answers' do
     it '(HAPPY) see the answer radio' do
       # GIVEN: user enter the test page
-
-      visit HomePage(&:catch_hobby)
-
+      visit HomePage do |page|
+        page.catch_hobby
+        @browser.url.include? 'test'
+      end
 
       # THEN: should see test page elements
       visit TestPage do |page|
@@ -38,7 +39,10 @@ describe 'Test Page Acceptance Tests' do
     it '(HAPPY) provide the correct hobby suggestion based on the test answer' do
       # GIVEN: user enter the test page
 
-      visit HomePage(&:catch_hobby)
+      visit HomePage do |page|
+        page.catch_hobby
+        @browser.url.include? 'test'
+      end
 
       # WHEN: answer the question with the answers
       visit TestPage do |page|
@@ -59,8 +63,10 @@ describe 'Test Page Acceptance Tests' do
 
     it '(BAD) should report error if user does not answer all the questions' do
       # GIVEN: user enter the test page
-
-      visit HomePage(&:catch_hobby)
+      visit HomePage do |page|
+        page.catch_hobby
+        @browser.url.include? 'test'
+      end
 
       # WHEN: user does not answer all of the questions
       visit TestPage do |page|

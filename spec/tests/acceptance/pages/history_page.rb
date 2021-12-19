@@ -9,7 +9,6 @@ class HistoryPage
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
 
-
   nav(:navigation, id: 'main_header')
   table(:history_table, id: 'history_table')
 
@@ -32,9 +31,5 @@ class HistoryPage
 
   def first_hobby_delete
     first_hobby_row.button(id: 'hobby[0].delete').click
-  end
-
-  def first_hobby_hover
-    first_hobby_row.hover
   end
 end
