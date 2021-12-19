@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Page object for home page
-# rubocop:disable Style/RedundantSelf
 class HomePage
   include PageObject
 
@@ -15,4 +14,3 @@ class HomePage
   button(:catch_hobby, id: 'catch_hobby')
   button(:view_history, id: 'view_history')
 end
-

@@ -29,8 +29,7 @@ module HobbyCatcher
       routing.root do
         # Get cookie viewer's previously seen test history
         session[:watching] ||= []
-        viewable_hobbies = Views::HobbiesList.new(session[:watching])
-        view 'home', locals: { hobbies: viewable_hobbies }
+        view 'home'
       end
 
       routing.on 'test' do
@@ -58,12 +57,13 @@ module HobbyCatcher
 
       routing.on 'history' do
         routing.post do
-          hobby = routing.params['delete']
-          delete_item = nil
-          session[:watching].each do |item|
-            delete_item = item if item.updated_at.to_s == hobby
-          end
-          session[:watching].delete(delete_item)
+          # hobby = routing.params['delete']
+          # delete_item = nil
+          # session[:watching].each do |item|
+          #   delete_item = item if item == hobby
+          # end
+          # binding.pry
+          session[:watching].delete(routing.params['delete'].to_i)
 
           routing.redirect '/history'
         end
@@ -77,7 +77,7 @@ module HobbyCatcher
               flash[:error] = result.failure
               viewable_hobbies = []
             else
-              hobbies = result.value!
+              hobbies = result.value!.records
               flash.now[:notice] = 'Catch your hobby first to see history.' if hobbies.empty?
 
               viewable_hobbies = Views::HobbiesList.new(hobbies)
@@ -107,14 +107,14 @@ module HobbyCatcher
             result = Service::GetAnswer.new.call(answer)
             hobby = result.value!
             # Add new record to watched set in cookies
-            session[:watching].insert(0, hobby.answers).uniq!
+            session[:watching].insert(0, hobby.id).uniq!
             # Redirect viewer to project page
             routing.redirect "suggestion/#{hobby.id}"
           end
         end
 
         routing.on String do |hobby_id|
-          # GET /introhoppy/hoppy
+          # GET /introhoppy/hobby
           routing.get do
             result = Service::ShowSuggestion.new.call(hobby_id)
             if result.failure?

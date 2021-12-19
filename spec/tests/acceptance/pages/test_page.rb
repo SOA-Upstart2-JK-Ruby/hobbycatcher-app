@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Page object for test page
-# rubocop:disable Style/RedundantSelf
 class TestPage
   include PageObject
 
@@ -10,7 +9,6 @@ class TestPage
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
 
-  # form(:show-hobby-form, id: 'show-hobby-form')
   button(:see_result, id: 'hobby-form-submit-question')
 
   indexed_property(
@@ -22,4 +20,3 @@ class TestPage
     ]
   )
 end
-

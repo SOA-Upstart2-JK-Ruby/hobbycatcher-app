@@ -22,7 +22,7 @@ module HobbyCatcher
     configure :development, :test, :app_test do
       require 'pry'; # for breakpoints
     end
-    
+
     configure :app_test do
       require_relative '../spec/helpers/vcr_helper'
       VcrHelper.setup_vcr

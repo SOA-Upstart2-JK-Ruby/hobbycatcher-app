@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'list_request'
 require 'http'
 
 module HobbyCatcher
@@ -21,6 +22,10 @@ module HobbyCatcher
 
       def get_answer(answer)
         @request.get_answer(answer[0], answer[1], answer[2], answer[3])
+      end
+
+      def list_histories(list)
+        @request.list_histories(list)
       end
 
       # Gets appraisal of a project folder rom API
@@ -53,6 +58,11 @@ module HobbyCatcher
                    'emotion' => emotion)
         end
 
+        def list_histories(list)
+          call_api('get', ['history'],
+                   'list' => Value::WatchedList.to_encoded(list))
+        end
+
         def get_suggestions(hobby_id)
           call_api('get', ['suggestion', hobby_id])
         end
@@ -61,7 +71,7 @@ module HobbyCatcher
 
         def params_str(params)
           params.map { |key, value| "#{key}=#{value}" }.join('&')
-            .then { |str| str ? "?" + str : '' }
+            .then { |str| str ? '?' + str : '' } # rubocop:disable Style/StringConcatenation
         end
 
         def call_api(method, resources = [], params = {})
@@ -78,7 +88,6 @@ module HobbyCatcher
       class Response < SimpleDelegator
         NotFound = Class.new(StandardError)
 
-        # SUCCESS_CODES = (200..299).freeze
         SUCCESS_CODES = (200..299)
 
         def success?
