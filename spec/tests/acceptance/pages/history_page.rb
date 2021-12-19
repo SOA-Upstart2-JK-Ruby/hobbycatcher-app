@@ -9,7 +9,6 @@ class HistoryPage
   div(:warning_message, id: 'flash_bar_danger')
   div(:success_message, id: 'flash_bar_success')
 
-
   nav(:navigation, id: 'main_header')
   table(:history_table, id: 'history_table')
 

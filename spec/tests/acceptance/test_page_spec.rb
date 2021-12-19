@@ -27,7 +27,6 @@ describe 'Test Page Acceptance Tests' do
         @browser.url.include? 'test'
       end
 
-
       # THEN: should see test page elements
       visit TestPage do |page|
         _(page.questions.exists?).must_equal true

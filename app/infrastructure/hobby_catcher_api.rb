@@ -71,7 +71,7 @@ module HobbyCatcher
 
         def params_str(params)
           params.map { |key, value| "#{key}=#{value}" }.join('&')
-          .then { |str| str ? '?' + str : '' }
+            .then { |str| str ? '?' + str : '' } # rubocop:disable Style/StringConcatenation
         end
 
         def call_api(method, resources = [], params = {})
@@ -88,8 +88,7 @@ module HobbyCatcher
       class Response < SimpleDelegator
         NotFound = Class.new(StandardError)
 
-        # SUCCESS_CODES = (200..299).freeze
-        SUCCESS_CODES = (200..299).freeze
+        SUCCESS_CODES = (200..299)
 
         def success?
           code.between?(SUCCESS_CODES.first, SUCCESS_CODES.last)

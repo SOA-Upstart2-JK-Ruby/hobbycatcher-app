@@ -15,7 +15,7 @@ module HobbyCatcher
       include Roar::Decorator::HypermediaConsumer
 
       collection :records, extend: Representer::Record,
-                          class: Response::OpenStructWithLinks
+                           class:  Response::OpenStructWithLinks
     end
   end
 end

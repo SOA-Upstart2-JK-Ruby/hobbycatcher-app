@@ -51,7 +51,6 @@ describe 'History Page Acceptance Tests' do
         page.see_result
       end
 
-
       # WHEN: user goes to the history page and delete the record
       visit HomePage do |page|
         page.view_history
