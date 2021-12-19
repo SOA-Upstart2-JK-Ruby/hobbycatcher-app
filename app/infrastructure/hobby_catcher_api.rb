@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'list_request'
 require 'http'
 
 module HobbyCatcher
@@ -21,6 +22,10 @@ module HobbyCatcher
 
       def get_answer(answer)
         @request.get_answer(answer[0], answer[1], answer[2], answer[3])
+      end
+
+      def list_histories(list)
+        @request.list_histories(list)
       end
 
       # Gets appraisal of a project folder rom API
@@ -51,6 +56,11 @@ module HobbyCatcher
                    'difficulty' => difficulty,
                    'freetime' => freetime,
                    'emotion' => emotion)
+        end
+
+        def list_histories(list)
+          call_api('get', ['history'],
+                   'list' => Value::WatchedList.to_encoded(list))
         end
 
         def get_suggestions(hobby_id)
