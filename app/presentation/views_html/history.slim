@@ -15,7 +15,7 @@
           tr class="table-row history_row" data-href='#{hobby.result_url}' id="#{hobby.index_str}.row"
             td id='delete_history'
               form role='form' method='post' action='/history'
-                input type='hidden' name='delete' value="#{hobby.id}"
+                input type='hidden' name='delete' value="#{hobby.id};#{hobby.time}"
                 button type="submit" class="btn btn-sm btn-link" id="#{hobby.index_str}.delete"
                   i class="fas fa-trash-alt"
             td id='td_testing_time'
