@@ -62,8 +62,7 @@ module HobbyCatcher
           # session[:watching].each do |item|
           #   delete_item = item if item == hobby
           # end
-          # binding.pry
-          session[:watching].delete(routing.params['delete'].to_i)
+          session[:watching].delete(routing.params['delete'])
 
           routing.redirect '/history'
         end
@@ -107,7 +106,8 @@ module HobbyCatcher
             result = Service::GetAnswer.new.call(answer)
             hobby = result.value!
             # Add new record to watched set in cookies
-            session[:watching].insert(0, hobby.id).uniq!
+            record = [hobby.id,hobby.updated_at].join(';')
+            session[:watching].insert(0, record).uniq!
             # Redirect viewer to project page
             routing.redirect "suggestion/#{hobby.id}"
           end
