@@ -124,12 +124,24 @@ module HobbyCatcher
               suggestions = result.value!
             end
 
-            viewable_hobby = Views::Suggestion.new(suggestions)
+            if suggestions.response.processing?
+              flash.now[:notice] = 'Loading courses...'
+            else
+              viewable_hobby = Views::Suggestion.new(suggestions)
+              response.expires(60, public: true) if App.environment == :production
+            end
+
+            # viewable_hobby = Views::Suggestion.new(suggestions)
             #   suggestions[:hobby], suggestions[:categories], suggestions[:courses_intros]
             # )
 
-            response.expires 60, public: true
-            view 'suggestion', locals: { hobby: viewable_hobby }
+            processing = Views::SuggestionProcessing.new(
+              App.config, suggestions.response
+            )
+
+            # response.expires 60, public: true
+            view 'suggestion', locals: { hobby: viewable_hobby,
+                                        processing: processing }
           end
         end
       end
