@@ -106,7 +106,7 @@ module HobbyCatcher
             result = Service::GetAnswer.new.call(answer)
             hobby = result.value!
             # Add new record to watched set in cookies
-            record = [hobby.id,hobby.updated_at].join(';')
+            record = [hobby.id, hobby.updated_at].join(';')
             session[:watching].insert(0, record).uniq!
             # Redirect viewer to project page
             routing.redirect "suggestion/#{hobby.id}"
@@ -116,32 +116,26 @@ module HobbyCatcher
         routing.on String do |hobby_id|
           # GET /introhoppy/hobby
           routing.get do
-            result = Service::ShowSuggestion.new.call(hobby_id)
+            result = Service::ShowSuggestion.new.call(requested: hobby_id)
             if result.failure?
               flash[:error] = result.failure
               routing.redirect '/'
-            else
-              suggestions = result.value!
             end
 
+            suggestions = OpenStruct.new(result.value!)
             if suggestions.response.processing?
               flash.now[:notice] = 'Loading courses...'
             else
-              viewable_hobby = Views::Suggestion.new(suggestions)
+              viewable_hobby = Views::Suggestion.new(suggestions.appraised)
               response.expires(60, public: true) if App.environment == :production
             end
-
-            # viewable_hobby = Views::Suggestion.new(suggestions)
-            #   suggestions[:hobby], suggestions[:categories], suggestions[:courses_intros]
-            # )
 
             processing = Views::SuggestionProcessing.new(
               App.config, suggestions.response
             )
 
             # response.expires 60, public: true
-            view 'suggestion', locals: { hobby: viewable_hobby,
-                                        processing: processing }
+            view 'suggestion', locals: { hobby: viewable_hobby, processing: processing }
           end
         end
       end
