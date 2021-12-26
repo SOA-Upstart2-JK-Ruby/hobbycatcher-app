@@ -11,20 +11,23 @@ module HobbyCatcher
       step :get_api_suggestions
       step :reify_suggestions
 
-      def get_api_suggestions(hobby_id)
-        result = Gateway::Api.new(HobbyCatcher::App.config)
-          .suggestions(hobby_id)
+      def get_api_suggestions(input)
+        input[:response] = Gateway::Api.new(HobbyCatcher::App.config)
+          .suggestions(input[:requested])
 
-        result.success? ? Success(result.payload) : Failure(result.message)
-      rescue StandardError => e
-        puts "#{e.inspect} \n #{e.backtrace}"
+        input[:response].success? ? Success(input) : Failure(input[:response].message)
+      rescue StandardError
         Failure('Cannot get your hobby suggestions right now; please try again later')
       end
 
-      def reify_suggestions(project_json)
-        Representer::Suggestion.new(OpenStruct.new)
-          .from_json(project_json)
-          .then { |suggestion| Success(suggestion) }
+      def reify_suggestions(input)
+        unless input[:response].processing?
+          Representer::Suggestion.new(OpenStruct.new)
+            .from_json(input[:response].payload)
+            .then { input[:appraised] = _1 }
+        end
+
+        Success(input)
       rescue StandardError
         Failure('Could not parse response from API')
       end
