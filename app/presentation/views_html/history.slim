@@ -12,7 +12,7 @@
           th Link
       tbody
         - hobbies.each do |hobby|
-          tr class="table-row history_row" data-href='#{hobby.result_url}' id="#{hobby.index_str}.row"
+          tr class="table-row history_row" data-href=hobby.result_url id="#{hobby.index_str}.row"
             td id='delete_history'
               form role='form' method='post' action='/history'
                 input type='hidden' name='delete' value="#{hobby.id};#{hobby.time}"

@@ -16,7 +16,7 @@ module HobbyCatcher
     plugin :render, engine: 'slim', views: 'app/presentation/views_html'
     plugin :public, root: 'app/presentation/public'
     plugin :assets, path: 'app/presentation/assets',
-                    css: 'style.css', js: 'table_row.js'
+                    css: 'style.css', js: ['table_row_click.js', 'top_btn.js']
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs
 
