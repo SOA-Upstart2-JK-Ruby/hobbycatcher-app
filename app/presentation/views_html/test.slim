@@ -1,28 +1,51 @@
 .container
-  br
-  br
   form role="form" action="/suggestion" method='POST' id='show-hobby-form'
-    -questions.each do |question|
-      .row.vertical-align.query-bar
-        .text-right id="#{question.index_str}.question" #{question.description} 
-      .row
-        .col-md-6.col-sm-6
-          .form-check
-            input {
-              class="form-check-input" type="radio" 
-              id="#{question.index_str}.answer1"
-              name = "#{question.type}" value= '0'
-            }#{question.answer1}
-        .col-md-6.col-sm-6
-          .form-check
-            input {
-              class="form-check-input" type="radio" 
-              id="#{question.index_str}.answer2"
-              name = "#{question.type}" value= '1'
-            }#{question.answer2}
+    - index = 0
+    - questions.each do |question|
+      .test_question.align-items-center id="test_question_#{index}" style="height: 100vh;"
+        br
+        .test_card.align-items-center
+          .container.test_content.align-items-center
+            .row.vertical-align.query-bar
+              h5.text-muted #{(index+1).to_s.rjust(2, '0')}
+              h4.text-right id="#{question.index_str}.question" #{question.description}
+              br
+            .row
+              br
+            .row
+              .col-md-6.col-sm-6
+                .form-check
+                  label.form-check-label
+                    input {
+                      class="form-check-input" type="radio" 
+                      id="#{question.index_str}.answer1"
+                      name = "#{question.type}" value= '0' 
+                    }#{question.answer1}
+              .col-md-6.col-sm-6
+                .form-check
+                  label.form-check-label
+                    input {
+                      class="form-check-input" type="radio" 
+                      id="#{question.index_str}.answer2"
+                      name = "#{question.type}" value= '1'
+                    }#{question.answer2}
+              br
+              br
+              br
+              br
+              br
+              br
+            .row.align-items-bottom.text-center
+              .col-md-6.text-start
+              .col-md-6.text-end
+                - unless question.index_str.include?("0")
+                  a.btn.btn-outline-link href="#test_question_#{index-1}" < Previous
+                a.btn.btn-warning href="#test_question_#{index+1}" Next >
+      - index+=1
       br
-    button { 
-      type='submit' id='hobby-form-submit-question' class='submit' 
-      value='submit' class="btn btn-warning" 
-      name = "submit" 
-    } See result!
+    .row id="test_question_#{index}"
+      button { 
+        type='submit' id='hobby-form-submit-question' class='submit' 
+        value='submit' class="btn btn-warning" 
+        name = "submit" 
+      } See result!

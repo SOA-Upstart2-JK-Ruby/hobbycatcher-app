@@ -1,29 +1,54 @@
 .container
   br
   br
-  .row
-    .col-md-12.blank-row
-    table class="table table-hover" id="history_table"
-      thead
-        tr
-          th
-          th Time
-          th Results
-          th Link
-      tbody
-        - hobbies.each do |hobby|
-          tr class="table-row history_row" data-href=hobby.result_url id="#{hobby.index_str}.row"
-            td id='delete_history'
-              form role='form' method='post' action='/history'
-                input type='hidden' name='delete' value="#{hobby.id};#{hobby.time}"
-                button type="submit" class="btn btn-sm btn-link" id="#{hobby.index_str}.delete"
-                  i class="fas fa-trash-alt"
-            td id='td_testing_time'
-              span class="history_table_time" id="#{hobby.index_str}.time"
-                = hobby.standard_time
-            td id='td_hobby_name'
-              span class="history_table_name" id="#{hobby.index_str}.name"
-                = hobby.name
-            td id='td_links'
-              span class="history_table_result" id="#{hobby.index_str}.result"
-                a href='#{hobby.result_url}' id="#{hobby.index_str}.link" Result
+  - if hobbies.any?
+    .align-items-center#latest_result
+      h5.text-warning You're latest results:
+      .col.text-center#history_hobby
+        img#history_hobby_img.text-center src="#{hobbies.first.img}"
+        .middle
+          h5.history_text = hobbies.first.name
+        br
+        br
+        h5 You're similar with #{hobbies.first.user_num} people!
+        br
+        br
+      .row style="padding: 0 10%;"
+        a.btn.btn-warning.btn-lg href="#all_results" More Results
+        br
+    .align-items-center#all_results
+      br
+      br
+      h5.text-warning All results:
+      .col-md-12.blank-row
+      table class="table table-hover" id="history_table"
+        thead
+          tr
+            th
+            th Time
+            th Results
+            th Link
+        tbody
+          - hobbies.each do |hobby|
+            tr class="table-row history_row" data-href=hobby.result_url id="#{hobby.index_str}.row"
+              td id='delete_history'
+                form role='form' method='post' action='/history'
+                  input type='hidden' name='delete' value="#{hobby.id};#{hobby.time}"
+                  button type="submit" class="btn btn-sm btn-link" id="#{hobby.index_str}.delete"
+                    i class="fas fa-trash-alt"
+              td id='td_testing_time'
+                span class="history_table_time" id="#{hobby.index_str}.time"
+                  = hobby.standard_time
+              td id='td_hobby_name'
+                span class="history_table_name" id="#{hobby.index_str}.name"
+                  = hobby.name
+              td id='td_links'
+                span class="history_table_result" id="#{hobby.index_str}.result"
+                  a.text-warning style="text-decoration:none;" href='#{hobby.result_url}' id="#{hobby.index_str}.link" Result
+  - else
+    .row.align-items-center.text-center
+      a.text-warning href="/test" method='POST' id='show-hobby-btn' style="text-decoration:none;"
+        span.shake-constant.shake-constant--hover.shake-slow style="font-size: 10em; color: #facd8b"
+          i class="fas fa-search"
+        h5 Start to Catch!
+    

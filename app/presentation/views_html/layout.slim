@@ -3,6 +3,7 @@ html
   head
     meta charset="utf-8"
     title HobbyCatcher
+    link rel="icon" href="weblogo.ico"
     
     / Bootstrap CSS and theme (United Theme)
     link{
@@ -22,6 +23,15 @@ html
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" 
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" 
       crossorigin="anonymous"
+    }
+
+    /
+    link{ 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/csshake/1.5.3/csshake.min.css" 
+      integrity="sha512-RliK2gk03WxUELn57ddjWLhEfhUiOZ85VvWLImFy8A7FOPMkF4Z9YGQ3VKX5jpwkEerAL6I0nC+JNeCPrxWBTw==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer"
     }
 
     / Custom CSS 
@@ -45,7 +55,7 @@ html
         include :flash_bar
         == yield
     
-    button type='button' onclick='topFunction()' id="toTopBtn" class="to_top_btn" Top
+    button type='button' onclick='topFunction()' id="toTopBtn" class="to_top_btn" ▲ Top
 
     .footer
       == render :footer

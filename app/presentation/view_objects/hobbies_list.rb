@@ -16,5 +16,9 @@ module Views
     def any?
       @hobbies.any?
     end
+
+    def first
+      @hobbies.first
+    end
   end
 end

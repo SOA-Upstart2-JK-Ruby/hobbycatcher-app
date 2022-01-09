@@ -33,7 +33,11 @@ module Views
     end
 
     def rating
-      @course.rating
+      @course.rating.zero? ? 'null' : @course.rating.round(2)
+    end
+
+    def time
+      @course.video_length / 60
     end
   end
 end

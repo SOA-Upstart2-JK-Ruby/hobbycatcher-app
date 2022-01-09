@@ -54,8 +54,92 @@ h1 {
   width: 60px;
   height: 60px;
   border-radius: 50%; /* Rounded corners */
-  font-size: 18px; /* Increase font size */
+  font-size: 10px; /* Increase font size */
 }
 #toTopBtn:hover {
   background-color: #555; /* Add a dark-grey background on hover */
+}
+
+/* Suggestion page */
+.card {
+  height: 300px;
+}
+.card-title {
+  height: 100px;
+}
+.cat {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+#sug_hobby, #sug_courses {
+  height: 100vh;
+}
+
+/* History page */
+#history_hobby {
+  position: relative;
+}
+
+#history_hobby_img {
+  width: 200px;
+  height: auto;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  box-shadow:  30px 30px 50px #cccccc,
+              -30px -30px 50px #ffffff;
+  opacity: 1;
+  position: relative;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+.middle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  background: #f8db9b8c;
+}
+#history_hobby:hover #history_hobby_img {
+  opacity: 0.3;
+}
+#history_hobby:hover .middle {
+  opacity: 1;
+}
+.history_text {
+  color: white;
+  font-size: 32px;
+  padding-top: 40%;
+  text-decoration:none;
+}
+#latest_result {
+  height: 100vh;
+}
+#all_results {
+  height: 100vh;
+}
+
+/* test page */
+.test_question {
+  height: 100vh;
+  top: 10%;
+}
+.test_card {
+  height: 80%;
+  border-radius: 2%;
+  background: #fffcf9da;
+  padding: 25px 20px;
+  top: 40%;
+}
+.test_content{
+  padding-top: 10%;
+}
+#show-hobby-form {
+  padding: 10%;
 }
