@@ -16,7 +16,7 @@ module HobbyCatcher
     plugin :render, engine: 'slim', views: 'app/presentation/views_html'
     plugin :public, root: 'app/presentation/public'
     plugin :assets, path: 'app/presentation/assets',
-                    css: 'style.css', js: 'table_row.js'
+                    css: 'style.css', js: ['table_row_click.js', 'top_btn.js']
 
     use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs
 
@@ -35,7 +35,7 @@ module HobbyCatcher
       routing.on 'test' do
         routing.is do
           routing.post do
-            routing.redirect 'test'
+            routing.redirect '/test'
           end
 
           routing.get do
@@ -109,12 +109,12 @@ module HobbyCatcher
             record = [hobby.id, hobby.updated_at].join(';')
             session[:watching].insert(0, record).uniq!
             # Redirect viewer to project page
-            routing.redirect "suggestion/#{hobby.id}"
+            routing.redirect "/suggestion/#{hobby.id}"
           end
         end
 
         routing.on String do |hobby_id|
-          # GET /introhoppy/hobby
+          # GET /introhobby/hobby
           routing.get do
             result = Service::ShowSuggestion.new.call(requested: hobby_id)
             if result.failure?
